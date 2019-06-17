@@ -3,13 +3,7 @@ const router = express.Router();
 
 var firebase = require("firebase");
 const firebaseConfig = {
-  apiKey: "AIzaSyBLk60Mxlxr8AnLDS5b74ANzDWszLENn8s",
-  authDomain: "letsbingo-d2734.firebaseapp.com",
-  databaseURL: "https://letsbingo-d2734.firebaseio.com",
-  projectId: "letsbingo-d2734",
-  storageBucket: "letsbingo-d2734.appspot.com",
-  messagingSenderId: "230905857234",
-  appId: "1:230905857234:web:41e10ea11292e047"
+ /*<CONFIG HERE> */
 };
 
 firebase.initializeApp(firebaseConfig);
