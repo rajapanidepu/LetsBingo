@@ -6,7 +6,7 @@ const Table = ({ selectedNumbers }) => {
   let number = 1;
 
   let columns = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 9; i++) {
     let rows = [];
     for (let j = 0; j < 10; j++) {
       if (selectedNumbers.includes(number)) {
@@ -125,7 +125,7 @@ class Home extends Component {
                   padding: 8,
                   fontSize: 30,
                   color: "#484349",
-                  opacity: i / this.state.bingoVals.length
+                  opacity: (i + 1) / this.state.bingoVals.length
                 }}
               >
                 {o}
@@ -138,8 +138,10 @@ class Home extends Component {
   }
 
   updateVals(bingoVals) {
-    this.setState({ bingoVals });
-    this.updateAllBingoVals(bingoVals);
+    setTimeout(() => {
+      this.setState({ bingoVals });
+      this.updateAllBingoVals(bingoVals);
+    }, 5000);
   }
 
   updateAllBingoVals(bingoVals) {

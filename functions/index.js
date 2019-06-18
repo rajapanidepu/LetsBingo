@@ -8,6 +8,10 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
+exports.nextNumber = functions.https.onRequest((request, response) => {
+  return getNextNumber().then(value => response.send(value));
+});
+
 const { dialogflow } = require("actions-on-google");
 
 const {
@@ -43,7 +47,7 @@ getNextNumber = () => {
           console.log(records[key]);
           pickedBingoNumbers.push(records[key]);
         }
-        if (pickedBingoNumbers.length > 90) {
+        if (pickedBingoNumbers.length >= 90) {
           resolve("game over");
           // conv.close('game over');
         }
