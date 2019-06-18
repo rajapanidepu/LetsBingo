@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import firebase from 'firebase';
+import Spin from 'react-reveal/Flip';
+import { Table } from './components/table';
 
 class Home extends Component {
   constructor(props) {
@@ -32,10 +34,22 @@ class Home extends Component {
     return (
       <div>
         <h1>Lets Bingo!</h1>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {this.state.sortedVals.map((o, id) => <div key={id} style={{ flex: 1 }}>{o}</div>)}
+        <div style={{ display: 'flex' }}>
+          <Table
+            selectedNumbers={this.state.sortedVals}
+            style={{ flex: 1 }}
+          />
+          <Spin>
+            <div style={{ flex: 1 }}>
+              <div>next number: </div>
+              <div 
+                style={{ border: '10px solid turquoise', background: 'turquoise', fontSize: 300, textAlign: 'center', color: 'darkslategrey' }}
+              >
+                {this.state.bingoVals.slice(-1).pop()}
+              </div>
+            </div>
+          </Spin>
         </div>
-        <div>last Number: {this.state.bingoVals.slice(-1).pop()}</div>
       </div>
     );
   }
