@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 import Spin from "react-reveal/Flip";
-import { Table } from "./components/table";
-import firebase from "firebase";
 
 const Table = ({ selectedNumbers }) => {
   let number = 1;
@@ -12,10 +10,33 @@ const Table = ({ selectedNumbers }) => {
     let rows = [];
     for (let j = 0; j < 10; j++) {
       if (selectedNumbers.includes(number)) {
-        rows.push(<div style={{ fontSize: 30, color: "green" }}>{number}</div>);
+        rows.push(
+          <div
+            style={{
+              fontSize: 30,
+              color: "white",
+              borderRadius: "40%",
+              backgroundColor: "#109648",
+              textAlign: "center",
+              margin: 5
+            }}
+          >
+            {number}
+          </div>
+        );
       } else
         rows.push(
-          <div style={{ fontSize: 30, color: "#d3d3d3" }}>{number}</div>
+          <div
+            style={{
+              fontSize: 30,
+              color: "#d3d3d3",
+              borderRadius: "40%",
+              textAlign: "center",
+              margin: 5
+            }}
+          >
+            {number}
+          </div>
         );
       number++;
     }
@@ -24,7 +45,6 @@ const Table = ({ selectedNumbers }) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          height: 60,
           width: 60
         }}
       >
@@ -32,7 +52,7 @@ const Table = ({ selectedNumbers }) => {
       </div>
     );
   }
-  return <div style={{ display: "flex", flexDirection: "row" }}>{columns}</div>;
+  return <div style={{ display: "flex" }}>{columns}</div>;
 };
 
 class Home extends Component {
@@ -64,26 +84,54 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Lets Bingo!</h1>
+      <div style={{ background: "#F7F0F0" }}>
+        <div style={{ textAlign: "center", color: "#484349", fontSize: 90 }}>
+          Lets Bingo!
+        </div>
         <div style={{ display: "flex" }}>
-          <Table selectedNumbers={this.state.sortedVals} style={{ flex: 1 }} />
-          <Spin>
-            <div style={{ flex: 1 }}>
-              <div>next number: </div>
-              <div
+          <div
+            style={{
+              padding: "30px",
+              display: "flex",
+              flex: 1,
+              justifyContent: "center"
+            }}
+          >
+            <Table selectedNumbers={this.state.sortedVals} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div
+              style={{
+                border: "10px solid turquoise",
+                background: "#8AF3FF",
+                fontSize: 350,
+                textAlign: "center",
+                color: "#484349",
+                height: "96%"
+              }}
+            >
+              {this.state.bingoVals.slice(-1).pop()}
+            </div>
+          </div>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <h1>Previous numbers</h1>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {this.state.bingoVals.map((o, i) => (
+              <span
                 style={{
-                  border: "10px solid turquoise",
-                  background: "turquoise",
-                  fontSize: 300,
-                  textAlign: "center",
-                  color: "darkslategrey"
+                  background: "#8AF3FF",
+                  border: "#484349 solid 1px",
+                  padding: 8,
+                  fontSize: 30,
+                  color: "#484349",
+                  opacity: i / this.state.bingoVals.length
                 }}
               >
-                {this.state.bingoVals.slice(-1).pop()}
-              </div>
-            </div>
-          </Spin>
+                {o}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     );

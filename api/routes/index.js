@@ -3,7 +3,10 @@ const router = express.Router();
 
 var firebase = require("firebase");
 const firebaseConfig = {
- /*<CONFIG HERE> */
+  apiKey: "AIzaSyBLk60Mxlxr8AnLDS5b74ANzDWszLENn8s",
+  authDomain: "letsbingo-d2734.firebaseapp.com",
+  databaseURL: "https://letsbingo-d2734.firebaseio.com",
+  storageBucket: "letsbingo-d2734.appspot.com"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -17,7 +20,7 @@ firebase.initializeApp(firebaseConfig);
 router.get("/", (req, res) => {
   getNextNumber().then(val => {
     res.json({ val });
-  })
+  });
   // var bingoReference = firebase.database().ref("/bingo/");
   // const pickedBingoNumbers = [];
 
@@ -67,38 +70,38 @@ getNextNumber = () => {
   const pickedBingoNumbers = [];
 
   return new Promise((resolve, reject) => {
-  bingoReference.on(
-    "value",
-    function(snapshot) {
-      const records = snapshot.val();
-      bingoReference.off("value");
+    bingoReference.on(
+      "value",
+      function(snapshot) {
+        const records = snapshot.val();
+        bingoReference.off("value");
 
-      for (var key in records) {
-        console.log(records[key]);
-        pickedBingoNumbers.push(records[key]);
+        for (var key in records) {
+          console.log(records[key]);
+          pickedBingoNumbers.push(records[key]);
+        }
+        if (pickedBingoNumbers.length > 90) {
+          resolve("game over");
+          // conv.close('game over');
+        }
+        let nextNumber = parseInt(Math.random() * 100);
+        console.log("====================================");
+        while (pickedBingoNumbers.includes(nextNumber)) {
+          nextNumber = parseInt(Math.random() * 100);
+        }
+        if (!pickedBingoNumbers.includes(nextNumber)) {
+          pickedBingoNumbers.push(nextNumber);
+          bingoReference.push(nextNumber);
+          resolve(`next number is ${nextNumber}`);
+          // conv.close('next number is ' + nextNumber);
+        }
+        console.log("************************************");
+      },
+      function(errorObject) {
+        console.log("The read failed: " + errorObject.code);
       }
-      if (pickedBingoNumbers.length > 90) {
-        resolve('game over');
-        // conv.close('game over');
-      }
-      let nextNumber = parseInt(Math.random() * 100);
-      console.log("====================================");
-      while (pickedBingoNumbers.includes(nextNumber)) {
-        nextNumber = parseInt(Math.random() * 100);
-      }
-      if (!pickedBingoNumbers.includes(nextNumber)) {
-        pickedBingoNumbers.push(nextNumber);
-        bingoReference.push(nextNumber);
-        resolve(`next number is ${nextNumber}`);
-        // conv.close('next number is ' + nextNumber);
-      }
-      console.log("************************************");
-    },
-    function(errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    }
-  )
+    );
   });
-}
+};
 
-module.exports = {router, getNextNumber};
+module.exports = { router, getNextNumber };

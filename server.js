@@ -1,4 +1,4 @@
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const express = require("express")();
 const http = require("http").Server(express);
 
@@ -10,20 +10,20 @@ const nextHandle = nextApp.getRequestHandler();
 
 // const { getRandomNumber } = require("./api/lib");
 
-const getNextNumber = require('./api/routes').getNextNumber;
+const getNextNumber = require("./api/routes").getNextNumber;
 
 const { dialogflow } = require("actions-on-google");
 const {
- SimpleResponse,
- BasicCard,
- Image,
- Suggestions,
- Button
+  SimpleResponse,
+  BasicCard,
+  Image,
+  Suggestions,
+  Button
 } = require("actions-on-google");
 
 const dialogflowApp = dialogflow({ debug: true });
 
-dialogflowApp.intent('Next number please', conv => {
+dialogflowApp.intent("Next number please", conv => {
   return getNextNumber().then(val => {
     conv.close(val);
   });
