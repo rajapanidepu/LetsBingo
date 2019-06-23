@@ -85,7 +85,20 @@ class Home extends Component {
   render() {
     return (
       <div style={{ background: "#F7F0F0" }}>
-        <div style={{ textAlign: "center", color: "#484349", fontSize: 90 }}>
+        <div
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontSize: 90,
+            backgroundColor: "#6200EE",
+            margin: 40
+          }}
+          onClick={() => {
+            fetch(
+              "https://us-central1-newagent-e5721.cloudfunctions.net/nextNumber"
+            );
+          }}
+        >
           Lets Bingo!
         </div>
         <div style={{ display: "flex" }}>
@@ -141,7 +154,7 @@ class Home extends Component {
     setTimeout(() => {
       this.setState({ bingoVals });
       this.updateAllBingoVals(bingoVals);
-    }, 5000);
+    }, 1000);
   }
 
   updateAllBingoVals(bingoVals) {
