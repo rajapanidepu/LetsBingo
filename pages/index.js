@@ -1,6 +1,6 @@
-import React, { Component } from "react";
 import firebase from "firebase";
-import Spin from "react-reveal/Flip";
+import $ from "jquery";
+import React, { Component } from "react";
 
 const Table = ({ selectedNumbers }) => {
   let number = 1;
@@ -68,7 +68,7 @@ class Home extends Component {
     var config = {
       apiKey: "AIzaSyBLk60Mxlxr8AnLDS5b74ANzDWszLENn8s",
       authDomain: "letsbingo-d2734.firebaseapp.com",
-      databaseURL: "https://letsbingo-d2734.firebaseio.com",
+      databaseURL: "https://letsbingo2.firebaseio.com/",
       storageBucket: "letsbingo-d2734.appspot.com"
     };
     firebase.initializeApp(config);
@@ -83,6 +83,10 @@ class Home extends Component {
   }
 
   render() {
+    const localFetchURL =
+      "http://localhost:5001/newagent-e5721/us-central1/nextNumber";
+    const remoteFetchURL =
+      "https://us-central1-newagent-e5721.cloudfunctions.net/nextNumber";
     return (
       <div style={{ background: "#F7F0F0" }}>
         <div
@@ -93,13 +97,11 @@ class Home extends Component {
             backgroundColor: "#6200EE",
             margin: 40
           }}
-          onClick={() => {
-            fetch(
-              "https://us-central1-newagent-e5721.cloudfunctions.net/nextNumber"
-            );
+          onClick={async () => {
+            fetch(remoteFetchURL).then(a => {});
           }}
         >
-          Lets Bingo!
+          Lets Bingo! V2
         </div>
         <div style={{ display: "flex" }}>
           <div
@@ -152,6 +154,15 @@ class Home extends Component {
 
   updateVals(bingoVals) {
     setTimeout(() => {
+      var msg = new SpeechSynthesisUtterance();
+      var voices = window.speechSynthesis.getVoices();
+      msg.voice = voices[$("#voices").val()];
+      // msg.rate = $("#rate").val() / 10;
+      // msg.pitch = $("#pitch").val();
+      var number = bingoVals.slice(-1).pop();
+      msg.text = bingoVals.slice(-1).pop();
+
+      speechSynthesis.speak(msg);
       this.setState({ bingoVals });
       this.updateAllBingoVals(bingoVals);
     }, 1000);
